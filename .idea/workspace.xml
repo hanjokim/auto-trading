@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e01fa797-c811-4f6f-9fed-e3f7fa06aca8" name="Default Changelist" comment="" />
+    <list default="true" id="e01fa797-c811-4f6f-9fed-e3f7fa06aca8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/conf/config.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,50 +59,45 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="1265660931">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/conf/config.ini">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/machine/coinone_machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-865">
-              <caret line="68" column="74" lean-forward="true" selection-start-line="68" selection-start-column="74" selection-end-line="68" selection-end-column="74" />
+            <state relative-caret-position="-5">
+              <caret line="74" column="26" lean-forward="true" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/machine/base_machine.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="44" column="12" selection-start-line="40" selection-start-column="3" selection-end-line="44" selection-end-column="12" />
-              <folding>
-                <marker date="1535993134713" expanded="true" signature="57:62" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/machine/base_machine.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="44" column="12" selection-start-line="40" selection-start-column="3" selection-end-line="44" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_coinone_machine.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
               <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1535992438508" expanded="true" signature="132:137" ph="..." />
               </folding>
             </state>
           </provider>
@@ -116,6 +116,9 @@
     <findStrings>
       <find>l</find>
     </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -152,6 +155,11 @@
             <path>
               <item name="auto-trading" type="b2602c69:ProjectViewProjectNode" />
               <item name="auto-trading" type="462c0819:PsiDirectoryNode" />
+              <item name="conf" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auto-trading" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auto-trading" type="462c0819:PsiDirectoryNode" />
               <item name="machine" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -171,7 +179,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/test_coinone_machine.py" />
+    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/auto-trading" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
@@ -291,12 +299,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_korbit_machine_py - 2018.09.01 at 01h 45m 22s.xml">
-      <configuration name="Unittests in test_korbit_machine.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_korbit_machine_py - 2018.09.01 at 01h 45m 38s.xml">
-      <configuration name="Unittests in test_korbit_machine.py" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_test_korbit_machine_py - 2018.09.01 at 01h 51m 41s.xml">
       <configuration name="Unittests in test_korbit_machine.py" configurationId="tests" />
     </history-entry>
@@ -321,22 +323,27 @@
     <history-entry file="Unittests_in_test_coinone_machine_py - 2018.09.04 at 01h 34m 00s.xml">
       <configuration name="Unittests in test_coinone_machine.py" configurationId="tests" />
     </history-entry>
+    <history-entry file="Unittests_in_test_coinone_machine_py - 2018.09.04 at 02h 41m 19s.xml">
+      <configuration name="Unittests in test_coinone_machine.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_coinone_machine_py - 2018.09.04 at 02h 53m 12s.xml">
+      <configuration name="Unittests in test_coinone_machine.py" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="24" width="1491" height="960" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20136054" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4969325" weight="0.32818073" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4969325" visible="true" weight="0.32738096" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39952436" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3297619" />
       <window_info anchor="bottom" x="82" y="407" width="1467" height="274" id="Terminal" order="8" sideWeight="0.4989775" weight="0.32893157" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5030675" side_tool="true" weight="0.32893157" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49965918" weight="0.32893157" />
@@ -404,41 +411,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/config.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/machine/base_machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="44" column="12" selection-start-line="40" selection-start-column="3" selection-end-line="44" selection-end-column="12" />
-          <folding>
-            <marker date="1535993134713" expanded="true" signature="57:62" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/machine/coinone_machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-865">
-          <caret line="68" column="74" lean-forward="true" selection-start-line="68" selection-start-column="74" selection-end-line="68" selection-end-column="74" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/config.ini" />
     <entry file="file://$PROJECT_DIR$/tests/test_coinone_machine.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <marker date="1535992438508" expanded="true" signature="132:137" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine/coinone_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5">
+          <caret line="74" column="26" lean-forward="true" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine/base_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="44" column="12" selection-start-line="40" selection-start-column="3" selection-end-line="44" selection-end-column="12" />
         </state>
       </provider>
     </entry>
