@@ -15,11 +15,11 @@ class Machine(ABC):
         pass
 
     # @abstractmethod
-    # def get_wallet_status(self):
-    #     """사용자의 지갑정보를 조회하는 메서드입니다.
-    #     """
-    #     pass
-    #
+    def get_wallet_status(self):
+        """사용자의 지갑정보를 조회하는 메서드입니다.
+        """
+        pass
+
     # @abstractmethod
     # def get_token(self):
     #     """액세스 토큰 정보를 구하는 메서드입니다.

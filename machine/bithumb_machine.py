@@ -9,6 +9,7 @@ import hashlib
 import hmac
 import urllib
 
+
 class BithumbMachine(Machine):
     """
     빗썸 거래소와 거래를 위한 클래스입니다.
@@ -17,6 +18,7 @@ class BithumbMachine(Machine):
     """
     BASE_API_URL = "https://api.bithumb.com"
     TRADE_CURRENCY_TYPE = ["BTC", "ETH", "DASH", "LTC", "ETC", "XRP", "BCH", "XMR", "ZEC", "QTUM", "BTG", "EOS"]
+
     def __init__(self):
         """
         BithumbMachine 클래스의 최초 호출 메소드 입니다.
@@ -26,10 +28,10 @@ class BithumbMachine(Machine):
         config.read('conf/config.ini')
         self.CLIENT_ID = config['BITHUMB']['connect_key']
         self.CLIENT_SECRET = config['BITHUMB']['secret_key']
-        #self.USER_NAME = config['BITHUMB']['username']
-        #self.access_token = None
-        #self.refresh_token = None
-        #self.token_type = None
+        # self.USER_NAME = config['BITHUMB']['username']
+        # self.access_token = None
+        # self.refresh_token = None
+        # self.token_type = None
 
     def get_ticker(self, currency_type=None):
         """마지막 체결정보(Tick)을 얻기 위한 메소드입니다.
@@ -83,3 +85,312 @@ class BithumbMachine(Machine):
         res = requests.get(url_path, params=params)
         result = res.json()
         return result
+
+    def get_orderbook(self, currency_type=None):
+        """
+
+        :param currency_type:
+        :return:
+        """
+        if currency_type is None:
+            raise Exception("Need currency_type")
+        if currency_type not in self.TRADE_CURRENCY_TYPE:
+            raise Exception("Not support currency type")
+        time.sleep(1)
+        params = {'group_orders': 0, 'count': 5}
+        orders_api_path = "/public/orderbook/{currency}".format(currency=currency_type)
+        url_path = self.BASE_API_URL + orders_api_path
+        res = requests.get(url_path, params=params)
+        result = res.json()
+        return result
+
+    def microtime(self, get_as_float=False):
+        if get_as_float:
+            return time.time()
+        else:
+            return '%f %d' % math.modf(time.time())
+
+    def usecTime(self):
+        mt = self.microtime(False)
+        mt_array = mt.split(" ")[:2]
+        return mt_array[1] + mt_array[0][2:5]
+
+    def get_nonce(self):
+        return self.usecTime()
+
+    def get_signature(self, encoded_payload, secret_key):
+        """
+
+        :param encoded_payload:
+        :param secret_key:
+        :return:
+        """
+        signature = hmac.new(secret_key, encoded_payload, hashlib.sha512);
+        api_sign = base64.b64encode(signature.hexdigest().encode('utf-8'))
+        return api_sign
+
+    def get_wallet_status(self, currency_type=None):
+        """사용자의 지갑정보를 조회하는 메소드입니다.
+
+        Args:
+            currency_type(str):화폐 종류를 입력받습니다. 화폐의 종류는 TRADE_CURRENCY_TYPE에 정의되어있습니다.
+
+        Returns:
+            사용자의 지갑에 화폐별 잔고를 딕셔너리 형태로 반환합니다.
+        """
+        if currency_type is None:
+            raise Exception("Need to currency_type")
+        if currency_type not in self.TRADE_CURRENCY_TYPE:
+            raise Exception('Not support currency type')
+        time.sleep(1)
+        endpoint = "/info/balance"
+        url_path = self.BASE_API_URL + endpoint
+
+        endpoint_item_array = {
+            "endpoint": endpoint,
+            "currency": currency_type
+        }
+
+        uri_array = dict(endpoint_item_array)  # Concatenate the two arrays.
+        str_data = urllib.parse.urlencode(uri_array)
+        nonce = self.get_nonce()
+        data = endpoint + chr(0) + str_data + chr(0) + nonce
+        utf8_data = data.encode('utf-8')
+
+        key = self.CLIENT_SECRET
+        utf8_key = key.encode('utf-8')
+
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   'Api-Key': self.CLIENT_ID,
+                   'Api-Sign': self.get_signature(utf8_data, bytes(utf8_key)),
+                   'Api-Nonce': nonce}
+
+        res = requests.post(url_path, headers=headers, data=str_data)
+        result = res.json()
+        return result["data"]
+
+    def get_list_my_orders(self, currency_type=None):
+        """사용자의 현재 예약중인 주문 현황을 조회하는 메소드입니다.
+
+        Args:
+            currency_type(str):화폐 종류를 입력받습니다. 화폐의 종류는 TRADE_CURRENCY_TYPE에 정의되어있습니다.
+
+        Returns:
+            거래 진행 중인 현황을 리스트로 반환합니다.
+        """
+        if currency_type is None:
+            raise Exception("Need to currency_type")
+        if currency_type not in self.TRADE_CURRENCY_TYPE:
+            raise Exception('Not support currency type')
+        time.sleep(1)
+        endpoint = "/info/orders"
+        url_path = self.BASE_API_URL + endpoint
+
+        endpoint_item_array = {
+            "endpoint": endpoint,
+            "currency": currency_type
+        }
+
+        uri_array = dict(endpoint_item_array)  # Concatenate the two arrays.
+        str_data = urllib.parse.urlencode(uri_array)
+        nonce = self.get_nonce()
+        data = endpoint + chr(0) + str_data + chr(0) + nonce
+        utf8_data = data.encode('utf-8')
+
+        key = self.CLIENT_SECRET
+        utf8_key = key.encode('utf-8')
+
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   'Api-Key': self.CLIENT_ID,
+                   'Api-Sign': self.get_signature(utf8_data, bytes(utf8_key)),
+                   'Api-Nonce': nonce}
+
+        res = requests.post(url_path, headers=headers, data=str_data)
+        result = res.json()
+        return result["data"]
+
+    def get_my_order_status(self, currency_type=None, order_id=None):
+        """사용자의 주문정보 상세정보를 조회하는 메소드입니다.
+
+        Args:
+            currency_type(str):화폐 종류를 입력받습니다. 화폐의 종류는 TRADE_CURRENCY_TYPE에 정의되어있습니다.
+            order_id(str): 거래ID
+
+        Returns:
+            order_id에 해당하는 주문의 상세정보를 반환합니다.
+        """
+        if currency_type is None:
+            raise Exception("Need to currency_type")
+        if currency_type not in self.TRADE_CURRENCY_TYPE:
+            raise Exception('Not support currency type')
+        time.sleep(1)
+        endpoint = "/info/order_detail"
+        url_path = self.BASE_API_URL + endpoint
+
+        endpoint_item_array = {
+            "endpoint": endpoint,
+            "currency": currency_type
+        }
+
+        uri_array = dict(endpoint_item_array)  # Concatenate the two arrays.
+        str_data = urllib.parse.urlencode(uri_array)
+        nonce = self.get_nonce()
+        data = endpoint + chr(0) + str_data + chr(0) + nonce
+        utf8_data = data.encode('utf-8')
+
+        key = self.CLIENT_SECRET
+        utf8_key = key.encode('utf-8')
+
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   'Api-Key': self.CLIENT_ID,
+                   'Api-Sign': self.get_signature(utf8_data, bytes(utf8_key)),
+                   'Api-Nonce': nonce}
+
+        res = requests.post(url_path, headers=headers, data=str_data)
+        result = res.json()
+        return result["data"]
+
+    def buy_order(self, currency_type=None, price=None, qty=None, order_type="limit"):
+        """매수 주문을 실행하는 메소드입니다..
+
+        Note:
+            화폐 종류마다 최소 주문 수량은 다를 수 있습니다.
+            이 메소드는 지정가 거래만 지원합니다.
+
+        Args:
+            currency_type(str):화폐 종류를 입력받습니다. 화폐의 종류는 TRADE_CURRENCY_TYPE에 정의되어있습니다.
+            price(int): 1개 수량 주문에 해당하는 원화(krw) 값
+            qty(float): 주문 수량입니다.
+
+        Returns:
+            주문의 상태에 대해 반환합니다.
+        """
+        if currency_type is None:
+            raise Exception("Need to currency_type")
+        if currency_type not in self.TRADE_CURRENCY_TYPE:
+            raise Exception('Not support currency type')
+        time.sleep(1)
+        endpoint = "/trade/place"
+        url_path = self.BASE_API_URL + endpoint
+
+        endpoint_item_array = {
+            "endpoint": endpoint,
+            "order_currency": currency_type,
+            "payment_currenct": "KRW",
+            "units": qty,
+            "price": price,
+            "type": "bid"
+        }
+
+        uri_array = dict(endpoint_item_array)  # Concatenate the two arrays.
+        str_data = urllib.parse.urlencode(uri_array)
+        nonce = self.get_nonce()
+        data = endpoint + chr(0) + str_data + chr(0) + nonce
+        utf8_data = data.encode('utf-8')
+
+        key = self.CLIENT_SECRET
+        utf8_key = key.encode('utf-8')
+
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   'Api-Key': self.CLIENT_ID,
+                   'Api-Sign': self.get_signature(utf8_data, bytes(utf8_key)),
+                   'Api-Nonce': nonce}
+
+        res = requests.post(url_path, headers=headers, data=str_data)
+        result = res.json()
+        return result
+
+    def sell_order(self, currency_type=None, price=None, qty=None, order_type="limit"):
+        """매도 주문을 실행하는 메소드입니다..
+
+        Note:
+            화폐 종류마다 최소 주문 수량은 다를 수 있습니다.
+            이 메소드는 지정가 거래만 지원합니다.
+
+        Args:
+            currency_type(str):화폐 종류를 입력받습니다. 화폐의 종류는 TRADE_CURRENCY_TYPE에 정의되어있습니다.
+            price(int): 1개 수량 주문에 해당하는 원화(krw) 값
+            qty(float): 주문 수량입니다.
+
+        Returns:
+            주문의 상태에 대해 반환합니다.
+        """
+        if currency_type is None:
+            raise Exception("Need to currency_type")
+        if currency_type not in self.TRADE_CURRENCY_TYPE:
+            raise Exception('Not support currency type')
+        time.sleep(1)
+        endpoint = "/trade/place"
+        url_path = self.BASE_API_URL + endpoint
+
+        endpoint_item_array = {
+            "endpoint": endpoint,
+            "order_currency": currency_type,
+            "payment_currenct": "KRW",
+            "units": qty,
+            "price": price,
+            "type": "ask"
+        }
+
+        uri_array = dict(endpoint_item_array)  # Concatenate the two arrays.
+        str_data = urllib.parse.urlencode(uri_array)
+        nonce = self.get_nonce()
+        data = endpoint + chr(0) + str_data + chr(0) + nonce
+        utf8_data = data.encode('utf-8')
+
+        key = self.CLIENT_SECRET
+        utf8_key = key.encode('utf-8')
+
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   'Api-Key': self.CLIENT_ID,
+                   'Api-Sign': self.get_signature(utf8_data, bytes(utf8_key)),
+                   'Api-Nonce': nonce}
+
+        res = requests.post(url_path, headers=headers, data=str_data)
+        result = res.json()
+        return result
+
+    def cancel_order(self, currency_type=None, order_type=None, order_id=None):
+        """매도 주문을 실행하는 메소드입니다..
+
+        Args:
+            currency_type(str):화폐 종류를 입력받습니다. 화폐의 종류는 TRADE_CURRENCY_TYPE에 정의되어있습니다.
+            order_type(str): 취소하려는 주문의 종류(매수, 매도)
+            order_id(str): 취소 주문하려는 주문의 ID
+
+        Returns:
+            주문의 상태에 대해 반환합니다.
+        """
+        if currency_type is None:
+            raise Exception("Need to currency_type")
+        if currency_type not in self.TRADE_CURRENCY_TYPE:
+            raise Exception('Not support currency type')
+        time.sleep(1)
+        endpoint = "/trade/cancel"
+        url_path = self.BASE_API_URL + endpoint
+
+        endpoint_item_array = {
+            "endpoint": endpoint,
+            "currency": currency_type,
+            "type": order_type,
+            "order_id": order_id
+        }
+
+        uri_array = dict(endpoint_item_array)  # Concatenate the two arrays.
+        str_data = urllib.parse.urlencode(uri_array)
+        nonce = self.get_nonce()
+        data = endpoint + chr(0) + str_data + chr(0) + nonce
+        utf8_data = data.encode('utf-8')
+
+        key = self.CLIENT_SECRET
+        utf8_key = key.encode('utf-8')
+
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   'Api-Key': self.CLIENT_ID,
+                   'Api-Sign': self.get_signature(utf8_data, bytes(utf8_key)),
+                   'Api-Nonce': nonce}
+
+        res = requests.post(url_path, headers=headers, data=str_data)
+        result = res.json()
+        return result
+
